@@ -2,9 +2,8 @@ package com.example.countries.api
 
 import android.util.Log
 import com.example.countries.entity.Country
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -13,15 +12,19 @@ import org.json.JSONObject
 
 class Countries {
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getCountries(){
 
-        GlobalScope.launch(Dispatchers.IO) {
-            fetchCountries();
+    private val scope = CoroutineScope(Dispatchers.Main)
+
+    fun getCountries(callback: (List<Country>?) -> Unit) {
+        scope.launch {
+            val countries = withContext(Dispatchers.IO) {
+                fetchCountries()
+            }
+            callback(countries)
         }
     }
 
-    suspend fun fetchCountries() {
+    private suspend fun fetchCountries(): List<Country>? {
 
         val client = OkHttpClient()
 
@@ -33,36 +36,33 @@ class Countries {
             .addHeader("x-rapidapi-host", "wft-geo-db.p.rapidapi.com")
             .build()
 
-        try {
+        return try {
             val response = client.newCall(request).execute()
             if(response.isSuccessful){
                 val responseData = response.body?.string()
-                withContext(Dispatchers.Main) {
+                val jsonObject = JSONObject(responseData);
+                val dataArray = jsonObject.getJSONArray("data")
+                val countries: MutableList<Country> = mutableListOf()
 
-                    val jsonObject = JSONObject(responseData);
-                    val dataArray = jsonObject.getJSONArray("data")
-                    val countries: MutableList<Country> = mutableListOf()
+                for (index in 0 until dataArray.length()){
+                    val countryObject = dataArray.getJSONObject(index)
 
-                    for (index in 0 until dataArray.length()){
-                        val countryObject = dataArray.getJSONObject(index)
+                    val country: Country = Country(countryObject.getString("code"),
+                        countryObject.getString("currencyCodes"),
+                        countryObject.getString("name"),
+                        countryObject.getString("wikiDataId"),
+                        false)
 
-                        val country: Country = Country(countryObject.getString("code"),
-                            countryObject.getString("currencyCodes"),
-                            countryObject.getString("name"),
-                            countryObject.getString("wikiDataId"),
-                            false)
-
-                        countries.add(country)
-                    }
-                    Log.d("Successmessage", "${countries[0].name}")
+                    countries.add(country)
                 }
+                countries
             }else{
-                withContext(Dispatchers.Main){
-                    Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
-                }
+                Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
+                null
             }
         }catch (e: Exception){
             Log.d("Errormessage", "Fehlermeldung lautet: $e")
+            null
         }
     }
 }

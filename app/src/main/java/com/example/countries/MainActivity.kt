@@ -18,9 +18,13 @@ class MainActivity : AppCompatActivity() {
 
         val countries = Countries()
 
-        countries.getCountries()
-
-
+        countries.getCountries { c ->
+            if (c != null) {
+                Log.d("SuccessmessageOnMainActivity", "${c[0].name}")
+            } else {
+                Log.d("SuccessmessageOnMainActivity", "Es hat fehlgeschlagen!")
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
