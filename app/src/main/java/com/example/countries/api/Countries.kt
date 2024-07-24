@@ -28,7 +28,6 @@ class Countries {
 
         val client = OkHttpClient()
 
-        // TODO: Use data from Local.properties
         val request = Request.Builder()
             .url("https://wft-geo-db.p.rapidapi.com/v1/geo/countries?limit=10")
             .get()
