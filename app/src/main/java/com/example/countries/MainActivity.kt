@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         val countries = Countries()
 
-        val countires2= countries.getCountries()
+        countries.getCountries()
 
 
 

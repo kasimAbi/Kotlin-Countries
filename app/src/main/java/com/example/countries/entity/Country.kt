@@ -1,5 +1,9 @@
 package com.example.countries.entity
 
-class Country(private var code: String, private var currencyCodes: String, private var name: String, private var wikiDataId: String, private var saved: Boolean = false) {
-
-}
+class Country(
+    var code: String,
+    var currencyCodes: String,
+    var name: String,
+    var wikiDataId: String,
+    var saved: Boolean = false
+)
