@@ -6,15 +6,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.countries.adapter.CountryAdapter
+import androidx.fragment.app.Fragment
 import com.example.countries.api.Countries
 import com.example.countries.databinding.ActivityMainBinding
+import com.example.countries.entity.Country
+
+lateinit var countriesList: MutableList<Country>
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var countryAdapter: CountryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,17 +23,24 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        binding.rvCountries.layoutManager = LinearLayoutManager(this)
-
         val countries = Countries()
 
         countries.getCountries { c ->
             if (c != null) {
-                countryAdapter = CountryAdapter(c)
-                binding.rvCountries.adapter = countryAdapter
+                countriesList = c
+                replaceFragment(HomeFragment())
             } else {
                 Log.d("SuccessmessageOnMainActivity", "Es hat fehlgeschlagen!")
             }
+        }
+
+        binding.bnvMainActivity.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.homeMenu -> replaceFragment(HomeFragment())
+                R.id.savedMenu -> replaceFragment(SavedFragment())
+                else ->{ }
+            }
+            true
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -40,5 +48,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.flMainActivity, fragment)
+        fragmentTransaction.commit()
     }
 }
