@@ -1,6 +1,6 @@
 package com.example.countries.entity
 
-class Country(
+data class Country(
     var code: String,
     var currencyCodes: String,
     var name: String,

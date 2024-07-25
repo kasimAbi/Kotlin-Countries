@@ -15,7 +15,7 @@ class Countries {
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
-    fun getCountries(callback: (List<Country>?) -> Unit) {
+    fun getCountries(callback: (MutableList<Country>?) -> Unit) {
         scope.launch {
             val countries = withContext(Dispatchers.IO) {
                 fetchCountries()
@@ -24,7 +24,7 @@ class Countries {
         }
     }
 
-    private suspend fun fetchCountries(): List<Country>? {
+    private suspend fun fetchCountries(): MutableList<Country>? {
 
         val client = OkHttpClient()
 
