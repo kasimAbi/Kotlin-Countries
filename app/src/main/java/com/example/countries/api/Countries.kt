@@ -1,7 +1,9 @@
 package com.example.countries.api
 
 import android.util.Log
+import androidx.core.net.toUri
 import com.example.countries.entity.Country
+import com.example.countries.entity.CountryDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +21,15 @@ class Countries {
                 fetchCountries()
             }
             callback(countries)
+        }
+    }
+
+    fun getCountryDetails(code:String, callback: (CountryDetails?) -> Unit) {
+        scope.launch {
+            val country = withContext(Dispatchers.IO) {
+                fetchCountryDetails(code)
+            }
+            callback(country)
         }
     }
 
@@ -53,6 +64,35 @@ class Countries {
                     countries.add(country)
                 }
                 countries
+            }else{
+                Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
+                null
+            }
+        }catch (e: Exception){
+            Log.d("Errormessage", "Fehlermeldung lautet: $e")
+            null
+        }
+    }
+
+    private suspend fun fetchCountryDetails(code: String): CountryDetails? {
+
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url("https://wft-geo-db.p.rapidapi.com/v1/geo/countries/$code")
+            .get()
+            .addHeader("x-rapidapi-key", "9d5839f98emsh018008190d070b6p10b499jsn5fd7f82492be")
+            .addHeader("x-rapidapi-host", "wft-geo-db.p.rapidapi.com")
+            .build()
+
+        return try {
+            val response = client.newCall(request).execute()
+            if(response.isSuccessful){
+                val responseData = response.body?.string()
+                val jsonObject = JSONObject(responseData)
+                val data = jsonObject.getJSONObject("data")
+                val countryDetails: CountryDetails = CountryDetails(data.getString("wikiDataId"), data.getString("flagImageUri").toUri())
+                countryDetails
             }else{
                 Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
                 null
