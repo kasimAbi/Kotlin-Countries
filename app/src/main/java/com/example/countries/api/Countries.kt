@@ -11,8 +11,6 @@ import okhttp3.Request
 import org.json.JSONObject
 
 class Countries {
-
-
     private val scope = CoroutineScope(Dispatchers.Main)
 
     fun getCountries(callback: (MutableList<Country>?) -> Unit) {
