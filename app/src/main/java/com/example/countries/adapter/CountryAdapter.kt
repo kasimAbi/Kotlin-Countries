@@ -1,9 +1,11 @@
 package com.example.countries.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.countries.DetailActivity
 import com.example.countries.R
 import com.example.countries.databinding.TemplateListItemBinding
 import com.example.countries.entity.Country
@@ -60,6 +62,13 @@ class CountryAdapter(private val countriesList : MutableList<Country>, private v
                     R.drawable.baseline_star_border_24
                 }
             )
+
+            tvCountryName.setOnClickListener{
+                val context = holder.itemView.context
+                val intent = Intent(context, DetailActivity::class.java)
+                context.startActivity(intent)
+            }
+
             sivSaveCountry.setOnClickListener{
                 toggleSaveCountry(sivSaveCountry, currentCountry)
             }
