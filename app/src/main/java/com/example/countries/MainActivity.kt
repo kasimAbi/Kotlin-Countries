@@ -6,21 +6,30 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.countries.adapter.CountryAdapter
 import com.example.countries.api.Countries
+import com.example.countries.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var countryAdapter: CountryAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
-        Log.d("MainActivity", "Hallo Welt Kasim")
+        binding.rvCountries.layoutManager = LinearLayoutManager(this)
 
         val countries = Countries()
 
         countries.getCountries { c ->
             if (c != null) {
-                Log.d("SuccessmessageOnMainActivity", "${c[0].name}")
+                countryAdapter = CountryAdapter(c)
+                binding.rvCountries.adapter = countryAdapter
             } else {
                 Log.d("SuccessmessageOnMainActivity", "Es hat fehlgeschlagen!")
             }
