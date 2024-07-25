@@ -3,11 +3,11 @@ package com.example.countries.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.countries.R
 import com.example.countries.databinding.TemplateListItemBinding
 import com.example.countries.entity.Country
+import com.google.android.material.imageview.ShapeableImageView
 
 class CountryAdapter(private val countriesList : MutableList<Country>, private val onlySaved: Boolean): RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
     private var filteredCountriesList: List<Country> = if(onlySaved){
@@ -30,12 +30,12 @@ class CountryAdapter(private val countriesList : MutableList<Country>, private v
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun toggleSaveCountry(ivSaveCountry: ImageView, currentCountry: Country) {
+    private fun toggleSaveCountry(sivSaveCountry: ShapeableImageView, currentCountry: Country) {
         if(!currentCountry.saved){
-            ivSaveCountry.setImageResource(R.drawable.saved_icon)
+            sivSaveCountry.setImageResource(R.drawable.baseline_star_24)
             currentCountry.saved = true
         }else{
-            ivSaveCountry.setImageResource(R.drawable.unsaved_icon)
+            sivSaveCountry.setImageResource(R.drawable.baseline_star_border_24)
             currentCountry.saved = false
         }
 
@@ -53,15 +53,15 @@ class CountryAdapter(private val countriesList : MutableList<Country>, private v
         val currentCountry = filteredCountriesList[position]
         holder.binding.apply {
             tvCountryName.text = currentCountry.name
-            ivSaveCountry.setImageResource(
+            sivSaveCountry.setImageResource(
                 if(currentCountry.saved) {
-                    R.drawable.saved_icon
+                    R.drawable.baseline_star_24
                 }else{
-                    R.drawable.unsaved_icon
+                    R.drawable.baseline_star_border_24
                 }
             )
-            ivSaveCountry.setOnClickListener{
-                toggleSaveCountry(ivSaveCountry, currentCountry)
+            sivSaveCountry.setOnClickListener{
+                toggleSaveCountry(sivSaveCountry, currentCountry)
             }
         }
     }
