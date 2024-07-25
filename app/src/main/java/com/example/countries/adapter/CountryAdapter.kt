@@ -66,6 +66,7 @@ class CountryAdapter(private val countriesList : MutableList<Country>, private v
             tvCountryName.setOnClickListener{
                 val context = holder.itemView.context
                 val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("code", currentCountry.code)
                 context.startActivity(intent)
             }
 
