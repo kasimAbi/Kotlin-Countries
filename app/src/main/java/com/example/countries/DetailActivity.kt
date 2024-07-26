@@ -42,6 +42,7 @@ class DetailActivity : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.wikidata.org/wiki/${c.wikiDataId}"))
                     startActivity(intent)
                 }
+                binding.tbCountryDetails.title = country.name
                 try {
                     setSupportActionBar(binding.tbCountryDetails)
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
