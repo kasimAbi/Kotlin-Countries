@@ -9,9 +9,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.countries.api.Countries
 import com.example.countries.databinding.ActivityMainBinding
-import com.example.countries.entity.Country
-
-lateinit var countriesList: MutableList<Country>
+import com.example.countries.repository.CountryRepository.getCountries
+import com.example.countries.repository.CountryRepository.setCountryList
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,13 +24,17 @@ class MainActivity : AppCompatActivity() {
 
         val countries = Countries()
 
-        countries.getCountries { c ->
-            if (c != null) {
-                countriesList = c
-                replaceFragment(HomeFragment())
-            } else {
-                Log.d("SuccessmessageOnMainActivity", "Es hat fehlgeschlagen!")
+        if(getCountries().isEmpty()){
+            countries.getCountries { c ->
+                if (c != null) {
+                    setCountryList(c)
+                    replaceFragment(HomeFragment())
+                } else {
+                    Log.d("Errormessage: getCountries", "Es hat fehlgeschlagen!")
+                }
             }
+        }else{
+            replaceFragment(HomeFragment())
         }
 
         binding.bnvMainActivity.setOnItemSelectedListener {

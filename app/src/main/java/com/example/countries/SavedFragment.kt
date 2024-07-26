@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.countries.adapter.CountryAdapter
 import com.example.countries.databinding.FragmentSavedBinding
+import com.example.countries.repository.CountryRepository.getCountries
 
 class SavedFragment : Fragment() {
 
@@ -26,7 +27,7 @@ class SavedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvSavedCountrie.layoutManager = LinearLayoutManager(requireContext())
-        countryAdapter = CountryAdapter(countriesList, true)
+        countryAdapter = CountryAdapter(getCountries(), true)
         binding.rvSavedCountrie.adapter = countryAdapter
     }
 

@@ -16,6 +16,7 @@ import coil.request.ImageRequest
 import com.example.countries.api.Countries
 import com.example.countries.databinding.ActivityDetailBinding
 import com.example.countries.entity.Country
+import com.example.countries.repository.CountryRepository.getCountries
 
 class DetailActivity : AppCompatActivity() {
 
@@ -31,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         code = intent.getStringExtra("code").toString()
-        country = countriesList.find{it.code == code}!!
+        country = getCountries().find{it.code == code}!!
 
         binding.tvCountryCode.setText("Country Code: $code")
 
@@ -78,11 +79,11 @@ class DetailActivity : AppCompatActivity() {
                 Log.d("test hier menu", "hallo")
                 if(country.saved){
                     country.saved = false
-                    countriesList.find{it.code == code}!!.saved = false
+                    getCountries().find{it.code == code}!!.saved = false
                     item.setIcon(R.drawable.baseline_star_border_36)
                 }else{
                     country.saved = true
-                    countriesList.find{it.code == code}!!.saved = true
+                    getCountries().find{it.code == code}!!.saved = true
                     item.setIcon(R.drawable.baseline_star_36)
                 }
                 true
