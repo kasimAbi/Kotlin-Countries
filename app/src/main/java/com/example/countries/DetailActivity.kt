@@ -48,10 +48,10 @@ class DetailActivity : AppCompatActivity() {
                     setSupportActionBar(binding.tbCountryDetails)
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 } catch (e: Exception) {
-                    Log.d("Errormessage", e.toString())
+                    Log.d("Errormessage: setSupportActionBar", e.toString())
                 }
             } else {
-                Log.d("SuccessmessageOnMainActivity", "Es hat fehlgeschlagen!")
+                Log.d("Errormessage: getCountryDetails", "Failed to get country details")
             }
         }
 
@@ -76,7 +76,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.savedCountry -> {
-                Log.d("test hier menu", "hallo")
                 if(country.saved){
                     country.saved = false
                     getCountries().find{it.code == code}!!.saved = false

@@ -65,11 +65,11 @@ class Countries {
                 }
                 countries
             }else{
-                Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
+                Log.d("Errormessage: response", response.toString())
                 null
             }
         }catch (e: Exception){
-            Log.d("Errormessage", "Fehlermeldung lautet: $e")
+            Log.d("Errormessage: fetchCountries", e.toString())
             null
         }
     }
@@ -95,11 +95,11 @@ class Countries {
                 val countryDetails: CountryDetails = CountryDetails(data.getString("wikiDataId"), uriString.toUri())
                 countryDetails
             }else{
-                Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
+                Log.d("Errormessage: response", response.toString())
                 null
             }
         }catch (e: Exception){
-            Log.d("Errormessage", "Fehlermeldung lautet: $e")
+            Log.d("Errormessage: fetchCountryDetails", e.toString())
             null
         }
     }

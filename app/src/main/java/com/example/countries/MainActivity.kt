@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                     setCountryList(c)
                     replaceFragment(HomeFragment())
                 } else {
-                    Log.d("Errormessage: getCountries", "Es hat fehlgeschlagen!")
+                    Log.d("Errormessage: getCountries", "Failed to get countries")
                 }
             }
         }else{
