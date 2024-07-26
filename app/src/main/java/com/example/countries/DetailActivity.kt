@@ -1,5 +1,7 @@
 package com.example.countries
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +34,10 @@ class DetailActivity : AppCompatActivity() {
         countries.getCountryDetails(code) { c ->
             if (c != null) {
                 loadSvgImage(c.flagImageUri.toString())
+                binding.bMoreInformation.setOnClickListener{
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.wikidata.org/wiki/${c.wikiDataId}"))
+                    startActivity(intent)
+                }
             } else {
                 Log.d("SuccessmessageOnMainActivity", "Es hat fehlgeschlagen!")
             }
