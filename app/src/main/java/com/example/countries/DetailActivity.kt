@@ -73,10 +73,6 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            android.R.id.home -> {
-                finish()
-                true
-            }
             R.id.savedCountry -> {
                 Log.d("test hier menu", "hallo")
                 if(country.saved){
