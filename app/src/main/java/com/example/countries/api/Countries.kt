@@ -91,7 +91,8 @@ class Countries {
                 val responseData = response.body?.string()
                 val jsonObject = JSONObject(responseData)
                 val data = jsonObject.getJSONObject("data")
-                val countryDetails: CountryDetails = CountryDetails(data.getString("wikiDataId"), data.getString("flagImageUri").toUri())
+                val uriString: String = updateUri(data.getString("flagImageUri"))
+                val countryDetails: CountryDetails = CountryDetails(data.getString("wikiDataId"), uriString.toUri())
                 countryDetails
             }else{
                 Log.d("ErrormessageForResponse", "Anfrage Fehlgeschlagen: ${response}")
@@ -100,6 +101,14 @@ class Countries {
         }catch (e: Exception){
             Log.d("Errormessage", "Fehlermeldung lautet: $e")
             null
+        }
+    }
+
+    private fun updateUri(url: String): String {
+        return if (url.startsWith("http://")) {
+            url.replaceFirst("http://", "https://")
+        } else {
+            url
         }
     }
 }
