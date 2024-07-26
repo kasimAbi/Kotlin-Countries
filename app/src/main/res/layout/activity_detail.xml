@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/ivCountryFlag"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toTopOf="@+id/tvCountryCode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
