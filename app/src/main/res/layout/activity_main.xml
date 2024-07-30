@@ -15,7 +15,8 @@
         android:textAlignment="center"
         android:text="Countries"
         android:textSize="20sp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:textStyle="bold" />
 
     <FrameLayout
         android:id="@+id/flMainActivity"
