@@ -13,6 +13,10 @@ import okhttp3.Request
 import org.json.JSONObject
 
 class Countries {
+
+    private val apiKey: String = "9d5839f98emsh018008190d070b6p10b499jsn5fd7f82492be"
+    private val host: String = "wft-geo-db.p.rapidapi.com"
+
     private val scope = CoroutineScope(Dispatchers.Main)
 
     fun getCountries(callback: (MutableList<Country>?) -> Unit) {
@@ -40,8 +44,8 @@ class Countries {
         val request = Request.Builder()
             .url("https://wft-geo-db.p.rapidapi.com/v1/geo/countries?limit=10")
             .get()
-            .addHeader("x-rapidapi-key", "9d5839f98emsh018008190d070b6p10b499jsn5fd7f82492be")
-            .addHeader("x-rapidapi-host", "wft-geo-db.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", apiKey)
+            .addHeader("x-rapidapi-host", host)
             .build()
 
         return try {
@@ -81,8 +85,8 @@ class Countries {
         val request = Request.Builder()
             .url("https://wft-geo-db.p.rapidapi.com/v1/geo/countries/$code")
             .get()
-            .addHeader("x-rapidapi-key", "9d5839f98emsh018008190d070b6p10b499jsn5fd7f82492be")
-            .addHeader("x-rapidapi-host", "wft-geo-db.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", apiKey)
+            .addHeader("x-rapidapi-host", host)
             .build()
 
         return try {
