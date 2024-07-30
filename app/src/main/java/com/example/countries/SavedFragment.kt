@@ -26,9 +26,9 @@ class SavedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvSavedCountrie.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSavedCountries.layoutManager = LinearLayoutManager(requireContext())
         countryAdapter = CountryAdapter(getCountries(), true)
-        binding.rvSavedCountrie.adapter = countryAdapter
+        binding.rvSavedCountries.adapter = countryAdapter
     }
 
     override fun onDestroyView() {
