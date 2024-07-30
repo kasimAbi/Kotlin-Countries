@@ -6,16 +6,7 @@ object  CountryRepository {
     private var countriesList: MutableList<Country> = mutableListOf()
 
     fun setCountryList(countries: MutableList<Country>){
-        countriesList = countries
-    }
-
-    fun addCountry(country: Country) {
-        countriesList.add(country)
-    }
-
-    fun updateCountry(code: String, saved: Boolean) {
-        val country = countriesList.find { it.code == code }
-        country?.saved = saved
+        countriesList.addAll(countries)
     }
 
     fun getCountries(): MutableList<Country> {
