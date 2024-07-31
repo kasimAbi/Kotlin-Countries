@@ -52,7 +52,7 @@ class Countries {
             val response = client.newCall(request).execute()
             if(response.isSuccessful){
                 val responseData = response.body?.string()
-                val jsonObject = JSONObject(responseData);
+                val jsonObject = JSONObject(responseData.toString());
                 val dataArray = jsonObject.getJSONArray("data")
                 val countries: MutableList<Country> = mutableListOf()
 
@@ -93,11 +93,10 @@ class Countries {
             val response = client.newCall(request).execute()
             if(response.isSuccessful){
                 val responseData = response.body?.string()
-                val jsonObject = JSONObject(responseData)
+                val jsonObject = JSONObject(responseData.toString())
                 val data = jsonObject.getJSONObject("data")
                 val uriString: String = updateUri(data.getString("flagImageUri"))
-                val countryDetails: CountryDetails = CountryDetails(data.getString("wikiDataId"), uriString.toUri())
-                countryDetails
+                return CountryDetails(data.getString("wikiDataId"), uriString.toUri())
             }else{
                 Log.d("Errormessage: response", response.toString())
                 null
