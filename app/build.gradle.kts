@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    // Dokka plugin, but it does not work -> the build directory will not be created
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 android {
@@ -51,6 +53,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation("io.coil-kt:coil:2.1.0")
     implementation("io.coil-kt:coil-svg:2.1.0")
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.20")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
