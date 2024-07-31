@@ -18,6 +18,11 @@ import com.example.countries.databinding.ActivityDetailBinding
 import com.example.countries.entity.Country
 import com.example.countries.repository.CountryRepository.getCountries
 
+/**
+ * Activity to display the details of a selected country
+ * @author Kasim Mermer
+ * @since 1.0.0
+ */
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
@@ -25,6 +30,11 @@ class DetailActivity : AppCompatActivity() {
     private val countries = Countries()
     private var code = ""
 
+    /**
+     * Called when the activity is first created
+     * Initializes the activity, sets up the view binding, and loads the country details
+     * @param savedInstanceState If non-null, this activity is being re-constructed from a previous saved state as given here
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -38,14 +48,29 @@ class DetailActivity : AppCompatActivity() {
 
         countries.getCountryDetails(code) { c ->
             if (c != null) {
+                /**
+                 * Set image for the flags
+                 */
                 loadSvgImage(c.flagImageUri.toString())
+                /**
+                 * Open browser on button click
+                 */
                 binding.bMoreInformation.setOnClickListener{
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.wikidata.org/wiki/${c.wikiDataId}"))
                     startActivity(intent)
                 }
+                /**
+                 * Title of the action bar
+                 */
                 binding.tbCountryDetails.title = country.name
                 try {
+                    /**
+                     * Set action bar
+                     */
                     setSupportActionBar(binding.tbCountryDetails)
+                    /**
+                     * Set the back button on the top-left side
+                     */
                     supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 } catch (e: Exception) {
                     Log.d("Errormessage: setSupportActionBar", e.toString())
@@ -62,6 +87,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Initializes the contents of the activity's standard options menu
+     * @param menu The options menu in which you place your items
+     * @return true for the menu to be displayed / false to not show the menu
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav_menu, menu)
         val savedCountryItem = menu?.findItem(R.id.savedCountry)
@@ -73,6 +103,12 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Called whenever an item in your options menu is selected
+     * In this case it handles the star icon click to save or unsave the selected country
+     * @param item The menu item that was selected
+     * @return false to allow normal menu processing to proceed, true to consume it here
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.savedCountry -> {
@@ -91,18 +127,31 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Loads an svg image from the provided url and displays it in the imageview.
+     * @param url The url of the svg image to load.
+     */
     private fun loadSvgImage(url: String){
+        /**
+         * Creating an imageLoader which supports svg-images
+         */
         val imageLoader = Builder(this)
             .components{
                 add(SvgDecoder.Factory())
             }
             .build()
 
+        /**
+         * Get image from the url and put it to the imageview
+         */
         val request = ImageRequest.Builder(this)
             .data(url)
             .target(binding.ivCountryFlag)
             .build()
 
+        /**
+         * Start image loading
+         */
         imageLoader.enqueue(request)
     }
 }

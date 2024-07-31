@@ -12,10 +12,19 @@ import com.example.countries.databinding.ActivityMainBinding
 import com.example.countries.repository.CountryRepository.getCountries
 import com.example.countries.repository.CountryRepository.setCountryList
 
+/**
+ * Main activity of the application, responsible for initializing the user interface and managing navigation between fragments
+ * @author Kasim Mermer
+ * @since 1.0.0
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    /**
+     * Called when the activity is first created
+     * Here, the layout is initialized, navigation is set up, and the initial display of fragments is managed
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,6 +33,9 @@ class MainActivity : AppCompatActivity() {
 
         val countries = Countries()
 
+        /**
+         * Loads country data and then displays the HomeFragment, if the countries didn't load before
+         */
         if(getCountries().isEmpty()){
             countries.getCountries { c ->
                 if (c != null) {
@@ -37,6 +49,9 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(HomeFragment())
         }
 
+        /**
+         * Listener for the bottom navigation bar
+         */
         binding.bnvMainActivity.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.homeMenu -> replaceFragment(HomeFragment())
@@ -53,6 +68,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Replaces the currently displayed fragment with a new one
+     * @param fragment The new fragment to be displayed
+     */
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
